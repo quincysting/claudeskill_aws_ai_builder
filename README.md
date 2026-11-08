@@ -7,7 +7,9 @@ A Claude Code skill for building, reviewing and debugging generative and agentic
 - Strands and MCP on AWS
 - the AWS services these apps lean on: data stores, streaming, AI services, API Gateway and Lambda, private networking and SageMaker
 
-The rules come from 22 AWS SimuLearn labs and 12 FDE microcredential labs. In many of those labs the validator passed while the system was still broken.
+The rules come from hands-on builds where the checks passed but the system was still broken, so they focus on what goes wrong in practice.
+
+![How the skill works: your task goes to SKILL.md, which loads 13 references and runs 14 Python scripts to produce a reviewed, tested change, across Bedrock, AgentCore, agent frameworks and adjacent AWS services](docs/overview.png)
 
 ## Install
 
@@ -25,6 +27,7 @@ Claude Code loads the skill when a task matches the description in `SKILL.md`, o
   - a review checklist
   - lab notes
 - `scripts/`: 14 Python helpers, each with its tests
+- `docs/`: the overview diagram (`overview.html` is the editable source, `overview.png` the export)
 
 ## Tests
 
