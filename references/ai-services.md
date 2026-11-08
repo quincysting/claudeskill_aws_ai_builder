@@ -1,6 +1,6 @@
 # AWS AI services next to Bedrock
 
-Lab tags in brackets name the lab that showed each rule: [4] is SimuLearn lab 4, [FDE1-5] is FDE1 lab 5, [FDE2-1] is FDE2 session 1. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [4] is SimuLearn lab 4, [FDE1-5] is FDE1 lab 5, [FDE2-1] is FDE2 session 1. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 Contents: pick the service before the model, Region and feature checks, async jobs, size and page limits, moderation that fails closed, Textract, Transcribe, Polly and Translate, Personalize, Kendra or Bedrock Knowledge Bases, Lex, IAM and service roles, cost traps, doc sources. The Transcribe S3 trigger rules are in `rag-and-vectors.md`, guardrail rules in `guardrails.md`, and the API front end in `serverless-apps.md`. Untagged rules come from the docs listed at the end. For API detail, load `aws-core:aws-sdk-python-usage` or the service docs.
 

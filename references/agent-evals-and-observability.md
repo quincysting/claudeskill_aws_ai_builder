@@ -1,6 +1,6 @@
 # Agent evaluations, observability and cost
 
-Lab tags in brackets name the lab that showed each rule: [20] is SimuLearn lab 20, [FDE1-4] is FDE1 lab 4, [FDE2-7] is FDE2 session 7. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [20] is SimuLearn lab 20, [FDE1-4] is FDE1 lab 4, [FDE2-7] is FDE2 session 7. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 [FDE2-8] marks guidance from a practice exam that a doc source confirmed. Rules with no tag come from the docs listed in the last section. Runtime and multi-agent setup are in `agents-and-tools.md`, prompt caching and model choice in `models-and-prompts.md`, guardrail traces in `guardrails.md`, token and identity audit in `agent-security-and-identity.md`.
 
@@ -109,7 +109,7 @@ ac.start_batch_evaluation(
 - The Lambda needs `bedrock-agentcore:InvokeAgentRuntime`, `ListBatchEvaluations`, `StartBatchEvaluation` and `GetBatchEvaluation`; `logs:FilterLogEvents` on the runtime log group and `logs:GetLogEvents` on the results group; `s3:GetObject` on the ground truth; and a 15-minute timeout [FDE2-4].
 - Ten sessions fired in 5.7 s once spans were flowing, and the batch finished in about a minute, against the lab's estimate of 8 to 11 minutes [FDE2-4].
 - Per-session scores are in the batch's output log stream. The lab read them as `session.id`, `gen_ai.evaluation.name` and `gen_ai.evaluation.score.value`, names the docs describe but didn't show in a full event. If every evaluator reports zero scored sessions, print one event and fix the keys [FDE2-4].
-- If the lab folders are on this machine, `D:\AI\AWSAI\FDE2\session4\code\lab_lambda\run-evaluation\index.py` has all of this, with the honest denominator and Wilson intervals, tested against fakes.
+- If you have the FDE2 session 4 lab code, its `run-evaluation/index.py` Lambda has all of this, with the honest denominator and Wilson intervals, tested against fakes.
 
 ## Online evaluation
 

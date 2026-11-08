@@ -1,6 +1,6 @@
 # Bedrock Guardrails
 
-Lab tags in brackets name the lab that showed each rule: [16] is SimuLearn lab 16, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [16] is SimuLearn lab 16, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 ## Contents
 
@@ -203,7 +203,7 @@ def with_topic(cur, topic):
     return req
 ```
 
-If the lab folders are on this machine, `D:\AI\AWSAI\AI_architect\lab14\code\teaching_guardrail.py` has a tested-against-fakes version of steps 1 to 5 for content filters and denied topics. It refuses guardrails that also have word, PII or grounding policies, so extend it before using it on those.
+If you have the SimuLearn lab 14 code, its `teaching_guardrail.py` has a tested-against-fakes version of steps 1 to 5 for content filters and denied topics. It refuses guardrails that also have word, PII or grounding policies, so extend it before using it on those.
 
 - Lab 15's DIY built its update by hand (name, description, topic, messages and a new word list) and left out the topic's second example, with no warning. Its notebook then tested without waiting for READY. That worked once; it's a race [15]. Build the request from `get_guardrail`, as above, rather than from memory.
 

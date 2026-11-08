@@ -1,6 +1,6 @@
 # Serverless front ends, write APIs and waits
 
-Lab tags in brackets name the lab that showed each rule: [16] is SimuLearn lab 16, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [16] is SimuLearn lab 16, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 ## Contents
 
@@ -206,7 +206,7 @@ These calls replace everything you don't send. Read, merge, write, then wait:
 
 The Lambda docs state the full replace. For the others, the request takes the whole document and the labs saw settings disappear, but the docs don't spell it out.
 
-For the ECS case, read the task definition, drop the describe-only fields, change the container's `environment`, register it, then `update_service(taskDefinition=new_arn, forceNewDeployment=True)`. If the lab folders are on this machine, `D:\AI\AWSAI\AI_architect\lab14\code\teaching_guardrail.py` has this as `roll_out_env`. Values that come from `environmentFiles` or `secrets` need only a forced new deployment, without a new revision.
+For the ECS case, read the task definition, drop the describe-only fields, change the container's `environment`, register it, then `update_service(taskDefinition=new_arn, forceNewDeployment=True)`. If you have the SimuLearn lab 14 code, its `teaching_guardrail.py` has this as `roll_out_env`. Values that come from `environmentFiles` or `secrets` need only a forced new deployment, without a new revision.
 
 - For S3 website config, keep `ErrorDocument` and `RoutingRules` from `get_bucket_website` when you change the index document [1].
 - If a Lambda config read returns `Environment.Error` and no `Variables`, Lambda couldn't decrypt them. Stop there: merging into an empty map would delete them all [5].

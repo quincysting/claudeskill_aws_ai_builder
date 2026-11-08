@@ -1,6 +1,6 @@
 # Agents and tools
 
-Lab tags in brackets name the lab that showed each rule: [8] is SimuLearn lab 8, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [8] is SimuLearn lab 8, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 [FDE2-8] marks guidance from a practice exam (FDE2 session 8), kept only where the AWS or Strands docs in section 13 agree. A rule with no tag comes from those docs or from the aws-core skill.
 
