@@ -1,6 +1,6 @@
 # Agent security and identity
 
-Lab tags in brackets name the lab that showed each rule: [20] is SimuLearn lab 20, [FDE1-4] is FDE1 lab 4, [FDE2-7] is FDE2 session 7. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [20] is SimuLearn lab 20, [FDE1-4] is FDE1 lab 4, [FDE2-7] is FDE2 session 7. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 [FDE2-8] marks guidance from a practice exam that a doc source confirmed. Rules with no tag come from the docs listed in the last section. Runtime, Gateway and Memory setup are in `agents-and-tools.md`, guardrail API details in `guardrails.md`, VPC endpoints and `aws:SourceVpce` in `network-and-iam.md`.
 
@@ -258,7 +258,7 @@ In production use a numbered version and sync stream processing. Keep the trace 
 
 `jwt_authorizer.py` reads roles from Keycloak's `resource_access` claim; adapt that step for other IdPs. The tests (`test_obo.py`) need PyJWT and cryptography to mint tokens, and skip without them.
 
-If the lab folders are on this machine, `D:\AI\AWSAI\FDE2\session5\code\deploy_policies.py` creates policies from `.cedar` files and waits for ACTIVE or CREATE_FAILED.
+If you have the FDE2 session 5 lab code, its `deploy_policies.py` creates policies from `.cedar` files and waits for ACTIVE or CREATE_FAILED.
 
 ## Sources for rules without a lab tag
 

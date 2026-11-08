@@ -1,6 +1,6 @@
 # Data stores, lakehouse and streams for agents
 
-Lab tags in brackets name the lab that showed each rule: [4] is SimuLearn lab 4, [FDE1-5] is FDE1 lab 5, [FDE2-1] is FDE2 session 1. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
+Lab tags in brackets name the lab that showed each rule: [4] is SimuLearn lab 4, [FDE1-5] is FDE1 lab 5, [FDE2-1] is FDE2 session 1. The lab notes aren't part of this skill; the rules stand on their own without them.
 
 Contents: which store holds what, DynamoDB for agent memory, Aurora PostgreSQL and pgvector, graph stores, guarding generated Cypher, guarding text-to-SQL, database tools for agents, lakehouse for AI, streaming data for agents, doc sources. Hybrid search and RRF fusion are in `rag-and-vectors.md`, tool contracts in `agents-and-tools.md`, and caller identity in `agent-security-and-identity.md`. Untagged rules come from the docs and skills listed at the end.
 
