@@ -1,0 +1,135 @@
+{
+  "StartAt": "Create training job",
+  "States": {
+    "Create training job": {
+      "Parameters": {
+        "FunctionName": "create_notebook_function",
+        "Payload": {
+          "notebook_name": "fine-tuning-llm-12-11-09"
+        }
+      },
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Type": "Task",
+      "Next": "Wait for training job"
+    },
+    "Wait for training job": {
+      "Seconds": 150,
+      "Type": "Wait",
+      "Next": "Get training job status"
+    },
+    "Get training job status": {
+      "Parameters": {
+        "FunctionName": "get_notebook_status_function",
+        "Payload": {
+          "notebook_name": "fine-tuning-llm-12-11-09"
+        }
+      },
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Type": "Task",
+      "Next": "Response to training job status"
+    },
+    "Response to training job status": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.Payload.trainningstatus",
+          "StringEquals": "Failed",
+          "Next": "HelloWorldFailed"
+        },
+        {
+          "Variable": "$.Payload.trainningstatus",
+          "StringEquals": "Stopped",
+          "Next": "HelloWorldFailed"
+        },
+        {
+          "Variable": "$.Payload.trainningstatus",
+          "StringEquals": "NotAvailable",
+          "Next": "HelloWorldFailed"
+        },
+        {
+          "Not": {
+            "Variable": "$.Payload.trainningstatus",
+            "StringEquals": "InService"
+          },
+          "Next": "Wait for training job"
+        }
+      ],
+      "Default": "Create model"
+    },
+    "Create model": {
+      "Parameters": {
+        "ExecutionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/sagemaker_exec_role",
+        "ModelName": "trained-pythia-12-11-09",
+        "PrimaryContainer": {
+          "Environment": {},
+          "Image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/djl-inference:0.22.1-deepspeed0.9.2-cu118",
+          "ModelDataUrl": "s3://automate-fine-tuning-<SUFFIX>/output/lora_model.tar.gz"
+        }
+      },
+      "Resource": "arn:aws:states:::sagemaker:createModel",
+      "Type": "Task",
+      "Next": "Create endpoint configuration",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Create endpoint configuration": {
+      "Resource": "arn:aws:states:::sagemaker:createEndpointConfig",
+      "Parameters": {
+        "EndpointConfigName": "trained-pythia-12-11-09",
+        "ProductionVariants": [
+          {
+            "InitialInstanceCount": 1,
+            "InstanceType": "ml.g4dn.2xlarge",
+            "ModelName": "trained-pythia-12-11-09",
+            "VariantName": "AllTraffic"
+          }
+        ]
+      },
+      "Type": "Task",
+      "Next": "Create endpoint",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Create endpoint": {
+      "Resource": "arn:aws:states:::sagemaker:createEndpoint",
+      "Parameters": {
+        "EndpointConfigName": "trained-pythia-12-11-09",
+        "EndpointName": "endpoint-trained-pythia-12-11-09"
+      },
+      "Type": "Task",
+      "End": true,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "HelloWorldFailed": {
+      "Type": "Fail"
+    }
+  }
+}

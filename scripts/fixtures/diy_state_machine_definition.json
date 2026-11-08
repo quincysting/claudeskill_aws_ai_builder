@@ -1,0 +1,132 @@
+{
+  "StartAt": "Train",
+  "States": {
+    "Train": {
+      "ResultPath": "$.train_step_result",
+      "Resource": "arn:aws:states:::sagemaker:createTrainingJob.sync",
+      "Parameters": {
+        "AlgorithmSpecification": {
+          "TrainingImage": "763104351884.dkr.ecr.us-east-1.amazonaws.com/djl-inference:0.22.1-deepspeed0.9.2-cu118",
+          "TrainingInputMode": "File"
+        },
+        "OutputDataConfig": {
+          "S3OutputPath": "s3://automate-fine-tuning-<SUFFIX>/diy_output"
+        },
+        "StoppingCondition": {
+          "MaxRuntimeInSeconds": 300
+        },
+        "ResourceConfig": {
+          "VolumeSizeInGB": 30,
+          "InstanceCount": 1,
+          "InstanceType": "ml.g5.4xlarge"
+        },
+        "RoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/sagemaker_exec_role",
+        "InputDataConfig": [
+          {
+            "DataSource": {
+              "S3DataSource": {
+                "S3DataType": "S3Prefix",
+                "S3Uri": "s3://automate-fine-tuning-<SUFFIX>/amazon_codewhisperer_faqs.csv",
+                "S3DataDistributionType": "FullyReplicated"
+              }
+            },
+            "ContentType": "csv",
+            "ChannelName": "training"
+          }
+        ],
+        "TrainingJobName": "diy-model-13-08-53",
+        "DebugHookConfig": {
+          "S3OutputPath": "s3://automate-fine-tuning-<SUFFIX>/diy_output"
+        }
+      },
+      "Type": "Task",
+      "Next": "Create model",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Create model": {
+      "ResultPath": "$.create_step_result",
+      "Parameters": {
+        "ExecutionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/sagemaker_exec_role",
+        "ModelName": "diy-model-13-08-53",
+        "PrimaryContainer": {
+          "Environment": {},
+          "Image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/djl-inference:0.22.1-deepspeed0.9.2-cu118",
+          "ModelDataUrl.$": "$['ModelArtifacts']['S3ModelArtifacts']"
+        }
+      },
+      "Resource": "arn:aws:states:::sagemaker:createModel",
+      "Type": "Task",
+      "Next": "Create endpoint configuration",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Create endpoint configuration": {
+      "ResultPath": "$.endpoint_config_step_result",
+      "Resource": "arn:aws:states:::sagemaker:createEndpointConfig",
+      "Parameters": {
+        "EndpointConfigName": "diy-model-13-08-53",
+        "ProductionVariants": [
+          {
+            "InitialInstanceCount": 1,
+            "InstanceType": "ml.g4dn.2xlarge",
+            "ModelName": "diy-model-13-08-53",
+            "VariantName": "AllTraffic"
+          }
+        ]
+      },
+      "Type": "Task",
+      "Next": "Create endpoint",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    },
+    "Create endpoint": {
+      "ResultPath": "$.endpoint_step_result",
+      "Resource": "arn:aws:states:::sagemaker:createEndpoint",
+      "Parameters": {
+        "EndpointConfigName": "diy-model-13-08-53",
+        "EndpointName": "endpoint-diy-model-13-08-53"
+      },
+      "Type": "Task",
+      "End": true,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "ThrottlingException",
+            "SageMaker.AmazonSageMakerException"
+          ],
+          "IntervalSeconds": 5,
+          "MaxAttempts": 60,
+          "BackoffRate": 1.25
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAccessFromVPCEndpoint",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:Get*",
+                "s3:Put*",
+                "s3:List*",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::sc-<acct>-pp-<pp-id>-sagemakers3bucket-<suffix>",
+                "arn:aws:s3:::sc-<acct>-pp-<pp-id>-sagemakers3bucket-<suffix>/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:sourceVpce": "<PASTE S3 VPC ENDPOINT ID>"
+                }
+            }
+        }
+    ]
+}
