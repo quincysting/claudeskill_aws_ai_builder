@@ -1,6 +1,6 @@
 # Working through an AWS SimuLearn or FDE exam lab
 
-What went wrong or saved time across 22 SimuLearn labs, 5 FDE1 exam labs, 7 FDE2 SimuLearn sessions and the FDE2 session 8 practice exam.
+What went wrong or saved time in timed, hands-on AWS lab sessions, SimuLearn and FDE among them.
 Lab tags in brackets name the lab that showed each rule: [16] is SimuLearn lab 16, [FDE1-3] is FDE1 lab 3, [FDE2-2] is FDE2 session 2. Their notes are under `D:\AI\AWSAI\` when that folder is on the machine; the rules stand on their own without it.
 
 Contents: snapshot first, plan the run, find out what your role can do, console editors and forms, working through a browser IDE, notebooks, snapshot tricks without the CLI, reading the lab material, checking agent labs end to end.
